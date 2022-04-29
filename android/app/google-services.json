@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295860956919",
+    "project_id": "novaldidemoapp",
+    "storage_bucket": "novaldidemoapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295860956919:android:36e1098f1746379c58adf2",
+        "android_client_info": {
+          "package_name": "com.novaldidemoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295860956919-gsqje32u2gv93blphv93cisk7veg12oq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ-FahR4esPOAGq54Bo4k56ZnRoG4IRZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295860956919-gsqje32u2gv93blphv93cisk7veg12oq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
