@@ -20,6 +20,8 @@ import { AgendaDetailScreen } from './features/agenda/AgendaDetailScreen';
 import { AgendaScreen } from './features/agenda/AgendaScreen';
 import { RecyclingScreen } from './features/recycling/RecyclingScreen';
 import { MapScreen } from './features/map/MapScreen';
+import { MapDetailScreen } from './features/map/MapDetailScreen';
+import { MapSimpleScreen } from './features/map/MapSimpleScreen';
 import { colors, LOGO, ONE_SIGNAL_APP_ID } from './config/config';
 import { WebViewDynamicHtmlScreen } from './features/webview/WebViewDynamicHtmlScreen';
 import { WebViewStaticHtmlScreen } from './features/webview/WebViewStaticHtmlScreen';
@@ -143,6 +145,8 @@ export default function App() {
             <Stack.Screen name="WebViewDynamic" component={WebViewDynamicHtmlScreen} />
             <Stack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
             <Stack.Screen name="Notifications" component={NotificationsScreen} />
+            <Stack.Screen name="MapDetail" component={MapDetailScreen} />
+            <Stack.Screen name="MapSimple" component={MapSimpleScreen} />
           </Stack.Navigator>
           <Toast ref={ref => Toast.setRef(ref)} />
         </NavigationContainer>

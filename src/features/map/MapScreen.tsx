@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import React, { useRef, useState } from 'react';
 import { Appearance, SafeAreaView, StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
 import MapView from 'react-native-map-clustering';
-import { Marker, Region } from 'react-native-maps';
+import { Callout, Marker, Region } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -26,6 +26,8 @@ export const MapScreen = inject(
   'recyclingStore',
 )(
   observer((props: Props) => {
+    console.log('--------------------');
+    console.log(props);
     const stores = Object.entries(props)
       .filter(prop => {
         return prop[0].includes('Store');
@@ -44,7 +46,7 @@ export const MapScreen = inject(
           <FontAwesome5
             name="filter"
             size={20}
-            color={colors.background}
+            color={colors.navBarIconColor}
             style={styles.filterIcon}
             onPress={() => {
               setOverlayFilter(true);
@@ -83,7 +85,8 @@ export const MapScreen = inject(
       );
     };
 
-    goToUserLocation();
+    // permet de centrer la carte sur sa localisation
+    // goToUserLocation();
 
     return (
       <SafeAreaView style={styles.container}>
@@ -98,6 +101,7 @@ export const MapScreen = inject(
         >
           {stores.map(store => {
             const list = Object.values(store)[0];
+            console.log(list);
             return list.map((item: any) => {
               if (!item.location) {
                 return null;
@@ -110,15 +114,22 @@ export const MapScreen = inject(
                     size={40}
                     color={isDarkMode ? colors.lightGrey : colors.secondaryMarker}
                   />
+                  <Callout
+                    tooltip
+                    onPress={() => {
+                      navigation.navigate('MapDetail');
+                    }}
+                  >
+                    <View>
+                      <Text>En savoir plus</Text>
+                    </View>
+                  </Callout>
                 </Marker>
               );
             });
           })}
         </MapView>
         <TouchableOpacity style={styles.myLocationContainer} onPress={() => goToUserLocation()}>
-          <MaterialIcons name="my-location" size={32} color={colors.mainColor} style={styles.myLocation} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.myLocationContainer2} onPress={() => goToUserLocation()}>
           <MaterialIcons name="my-location" size={32} color={colors.mainColor} style={styles.myLocation} />
         </TouchableOpacity>
       </SafeAreaView>
@@ -140,7 +151,7 @@ const styles = StyleSheet.create({
   },
   myLocationContainer: {
     position: 'absolute',
-    top: 10,
+    top: 410,
     right: 15,
     zIndex: 2,
     width: 50,
