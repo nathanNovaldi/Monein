@@ -9,6 +9,7 @@ import ANNUAIRE_ICON from './icons/annuaire.svg';
 import CONTACT_ICON from './icons/contact.svg';
 import MENU_ICON from './icons/menu.svg';
 import CARTE_ICON from './icons/carte.svg';
+import RUCHE_ICON from './icons/ruche.svg';
 import { colors } from './colors';
 
 const iconStyle = {
@@ -117,5 +118,14 @@ export const buttonList = [
     title: 'home.carte',
     redirection: 'Map',
     getIcon: on => <CARTE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
+  },
+  {
+    width: 15,
+    height: 15,
+    x: 16,
+    y: 64,
+    title: 'home.ruche',
+    redirection: 'Ruche',
+    getIcon: on => <RUCHE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
   },
 ];

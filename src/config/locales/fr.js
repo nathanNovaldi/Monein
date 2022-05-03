@@ -18,6 +18,7 @@ export default {
     contact: 'Contact',
     menu: 'Menu',
     carte: 'Carte',
+    ruche: 'Signaler une Ruche',
   },
   news: {
     title: 'Actualités',

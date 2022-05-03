@@ -20,6 +20,7 @@ import { AgendaDetailScreen } from './features/agenda/AgendaDetailScreen';
 import { AgendaScreen } from './features/agenda/AgendaScreen';
 import { RecyclingScreen } from './features/recycling/RecyclingScreen';
 import { MapScreen } from './features/map/MapScreen';
+import { RucheScreen } from './features/ruche/RucheScreen';
 import { MapDetailScreen } from './features/map/MapDetailScreen';
 import { MapSimpleScreen } from './features/map/MapSimpleScreen';
 import { colors, LOGO, ONE_SIGNAL_APP_ID } from './config/config';
@@ -142,6 +143,7 @@ export default function App() {
             <Stack.Screen name="Recycling" component={RecyclingScreen} />
             <Stack.Screen name="Menu" component={MenuScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen name="Ruche" component={RucheScreen} />
             <Stack.Screen name="WebViewDynamic" component={WebViewDynamicHtmlScreen} />
             <Stack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
             <Stack.Screen name="Notifications" component={NotificationsScreen} />
