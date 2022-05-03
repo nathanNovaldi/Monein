@@ -26,8 +26,7 @@ const initialRegion: Region = {
 };
 
 export const MapDetailScreen = () => {
-  const navigation = useNavigation();
-
+  const item = route.params;
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Emplacement pour Personne à Mobilité Réduite</Text>

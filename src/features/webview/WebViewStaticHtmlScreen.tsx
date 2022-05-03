@@ -81,6 +81,7 @@ export const WebViewStaticHtmlScreen = inject('newsStore')(
           source={{ html: source.html }}
           androidLayerType="hardware"
           style={{ backgroundColor: 'transparent', height: 8000 }}
+          originWhitelist={['*']}
         />
       </SafeAreaView>
     );

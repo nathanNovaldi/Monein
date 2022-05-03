@@ -15,10 +15,20 @@ import { AgendaStore } from '../agenda/AgendaStore';
 import { RecyclingStore } from '../recycling/RecyclingStore';
 import { ModalFilter } from './component/ModalFilter';
 import { Card, ListItem, Button, Icon, CheckBox } from 'react-native-elements';
+import { RouteProp } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../App';
 
 type Props = {
   agendaStore: AgendaStore;
   recyclingStore: RecyclingStore;
+};
+
+export type RootStackParamList = {
+  HomeScreen: undefined;
+  MapDetail: {
+    item: any;
+  };
 };
 
 export const MapScreen = inject(
@@ -117,11 +127,15 @@ export const MapScreen = inject(
                   <Callout
                     tooltip
                     onPress={() => {
-                      navigation.navigate('MapDetail');
+                      navigation.navigate('MapDetail', item);
                     }}
                   >
                     <View>
-                      <Text>En savoir plus</Text>
+                      <View style={styles.bubble}>
+                        <Text style={styles.name}>{item.name}</Text>
+                      </View>
+                      <View style={styles.arrowBorder} />
+                      <View style={styles.arrow} />
                     </View>
                   </Callout>
                 </Marker>
@@ -143,6 +157,44 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     justifyContent: 'flex-start',
   },
+
+  bubble: {
+    flexDirection: 'column',
+    alignSelf: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    padding: 15,
+    width: 150,
+    justifyContent: 'center',
+  },
+
+  arrow: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -32,
+  },
+
+  arrowBorder: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#007a87',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -0.5,
+  },
+
+  name: {
+    fontSize: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+
   filterIcon: {
     marginRight: 25,
   },

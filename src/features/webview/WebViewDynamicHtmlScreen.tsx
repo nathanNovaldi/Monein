@@ -112,6 +112,7 @@ export const WebViewDynamicHtmlScreen = inject('newsStore')(
             source={{ uri }}
             injectedJavaScript={runFirst}
             style={{ backgroundColor: 'transparent' }}
+            originWhitelist={['*']}
           />
         </View>
       </SafeAreaView>

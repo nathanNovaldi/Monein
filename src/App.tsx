@@ -67,6 +67,11 @@ const stores = {
 };
 const Stack = createStackNavigator();
 
+export type RootStackParamList = {
+  HomeScreen: undefined;
+  DetailsScreen: undefined;
+};
+
 function LogoTitle() {
   return <LOGO style={styles.LOGO} />;
 }
