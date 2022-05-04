@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export const RucheScreen = () => {
   return (
     <SafeAreaView style={styles.page}>
-      <Text style={styles.titre}>Signaler une ruche</Text>
+      <Text style={styles.titre}></Text>
       <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, height: 10 }} />
       <View style={styles.paragraphe}>
         <Text

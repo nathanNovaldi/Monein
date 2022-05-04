@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import React, { useRef, useState } from 'react';
 import { Appearance, SafeAreaView, StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
 import MapView from 'react-native-map-clustering';
-import { Callout, Marker, Region } from 'react-native-maps';
+import { Callout, Geojson, Marker, Region } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -24,20 +24,13 @@ type Props = {
   recyclingStore: RecyclingStore;
 };
 
-export type RootStackParamList = {
-  HomeScreen: undefined;
-  MapDetail: {
-    item: any;
-  };
-};
+// export const data: any = {};
 
 export const MapScreen = inject(
   'agendaStore',
   'recyclingStore',
 )(
   observer((props: Props) => {
-    console.log('--------------------');
-    console.log(props);
     const stores = Object.entries(props)
       .filter(prop => {
         return prop[0].includes('Store');
@@ -67,10 +60,24 @@ export const MapScreen = inject(
     });
 
     const initialRegion: Region = {
-      latitude: 46.5,
-      longitude: 2,
-      latitudeDelta: 12,
-      longitudeDelta: 12,
+      latitude: 43.29152762842413,
+      longitude: -0.5658887808057648,
+      latitudeDelta: 0.2,
+      longitudeDelta: 0.2,
+    };
+
+    const laPlace = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Point',
+            coordinates: [64.165329, 48.844287],
+          },
+        },
+      ],
     };
 
     const goToUserLocation = () => {
@@ -109,6 +116,7 @@ export const MapScreen = inject(
           compassOffset={{ x: -WINDOW_WIDTH + 60, y: 20 }}
           clusterColor={isDarkMode ? colors.lightGrey : colors.secondaryMarker}
         >
+          <Geojson geojson={laPlace} strokeColor="red" fillColor="green" strokeWidth={2} />
           {stores.map(store => {
             const list = Object.values(store)[0];
             console.log(list);
@@ -118,7 +126,23 @@ export const MapScreen = inject(
               }
 
               return (
-                <Marker key={item.id} coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}>
+                <Marker
+                  key={item.id}
+                  coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}
+                  onPress={() => {
+                    mapView.current.animateCamera(
+                      {
+                        center: {
+                          latitude: item.location.lat,
+                          longitude: item.location.lng,
+                        },
+                        altitude: 10000,
+                        zoom: 10,
+                      },
+                      { duration: 1000 },
+                    );
+                  }}
+                >
                   <MaterialCommunityIcons
                     name="map-marker"
                     size={40}
@@ -127,6 +151,8 @@ export const MapScreen = inject(
                   <Callout
                     tooltip
                     onPress={() => {
+                      console.log('--------item--------');
+                      console.log(item);
                       navigation.navigate('MapDetail', item);
                     }}
                   >

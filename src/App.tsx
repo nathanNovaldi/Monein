@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import { TransitionPresets, createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { StackNavigationOptions } from '@react-navigation/stack/lib/typescript/src/types';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'mobx-react';
@@ -34,6 +34,13 @@ import { oneSignalSubscription, setItemAsyncStorage } from './features/notificat
 import { checkboxes } from './features/notifications/components/checkbox';
 import { StyleSheet } from 'react-native';
 
+type RootStackParamList = {
+  HomeScreen: undefined;
+  DetailsScreen: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
 // OneSignal Init Code
 OneSignal.setLogLevel(6, 0);
 OneSignal.setAppId(ONE_SIGNAL_APP_ID);
@@ -64,12 +71,6 @@ const stores = {
   newsStore,
   agendaStore,
   recyclingStore,
-};
-const Stack = createStackNavigator();
-
-export type RootStackParamList = {
-  HomeScreen: undefined;
-  DetailsScreen: undefined;
 };
 
 function LogoTitle() {

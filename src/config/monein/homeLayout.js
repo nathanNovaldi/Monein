@@ -129,7 +129,11 @@ export const buttonList = [
     x: 16,
     y: 64,
     title: 'home.ruche',
-    redirection: 'Ruche',
+    redirection: 'WebViewDynamic',
     getIcon: on => <RUCHE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
+    params: {
+      url: 'https://www.monein.fr/vivre-a-monein/infos-pratiques-et-permanences/frelons-asiatiques-moustiques-tigre/',
+      canNav: true,
+    },
   },
 ];
