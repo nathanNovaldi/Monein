@@ -16,9 +16,9 @@ export default {
     rdv: 'Carte d’identité / passeport',
     commerce: 'Commerces et entreprises',
     contact: 'Contact',
-    menu: 'Menu',
+    menu: 'Menu cantine',
     carte: 'Carte',
-    ruche: 'Signaler une ruche',
+    ruche: 'Signaler nid de frelons asiatiques',
   },
   news: {
     title: 'Actualités',

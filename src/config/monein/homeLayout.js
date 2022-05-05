@@ -132,7 +132,7 @@ export const buttonList = [
     redirection: 'WebViewDynamic',
     getIcon: on => <RUCHE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
     params: {
-      url: 'https://www.monein.fr/vivre-a-monein/infos-pratiques-et-permanences/frelons-asiatiques-moustiques-tigre/',
+      url: 'https://monein.beesforlife.fr/signaler-un-nid-de-frelons/formulaire-de-signalement',
       canNav: true,
     },
   },

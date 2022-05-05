@@ -2,9 +2,9 @@ import Geolocation from '@react-native-community/geolocation';
 import { useNavigation } from '@react-navigation/native';
 import { inject, observer } from 'mobx-react';
 import React, { useRef, useState } from 'react';
-import { Appearance, SafeAreaView, StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
+import { Appearance, SafeAreaView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import MapView from 'react-native-map-clustering';
-import { Callout, Geojson, Marker, Region } from 'react-native-maps';
+import { Callout, Marker, Region } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,17 +14,12 @@ import { WINDOW_WIDTH } from '../../shared/Variables';
 import { AgendaStore } from '../agenda/AgendaStore';
 import { RecyclingStore } from '../recycling/RecyclingStore';
 import { ModalFilter } from './component/ModalFilter';
-import { Card, ListItem, Button, Icon, CheckBox } from 'react-native-elements';
-import { RouteProp } from '@react-navigation/core';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
+import { MapSettings } from './component/MapSettings';
 
 type Props = {
   agendaStore: AgendaStore;
   recyclingStore: RecyclingStore;
 };
-
-// export const data: any = {};
 
 export const MapScreen = inject(
   'agendaStore',
@@ -37,9 +32,9 @@ export const MapScreen = inject(
       })
       .map(store => store[1]);
 
+    const mapSettings = new MapSettings(43.29152762842413, -0.5658887808057648, 0.2, 0.2);
     const [overlayFilter, setOverlayFilter] = useState<boolean>(false);
     const isDarkMode = Appearance.getColorScheme() === 'dark';
-    const mapView = useRef(null);
 
     const navigation = useNavigation();
 
@@ -59,67 +54,19 @@ export const MapScreen = inject(
       });
     });
 
-    const initialRegion: Region = {
-      latitude: 43.29152762842413,
-      longitude: -0.5658887808057648,
-      latitudeDelta: 0.2,
-      longitudeDelta: 0.2,
-    };
-
-    const laPlace = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Point',
-            coordinates: [64.165329, 48.844287],
-          },
-        },
-      ],
-    };
-
-    const goToUserLocation = () => {
-      checkLocationPermission(true).then(res =>
-        res
-          ? Geolocation.getCurrentPosition(info => {
-              if (mapView && mapView.current) {
-                mapView.current.animateCamera(
-                  {
-                    center: {
-                      latitude: info.coords.latitude,
-                      longitude: info.coords.longitude,
-                    },
-                    altitude: 10000,
-                    zoom: 10,
-                  },
-                  { duration: 2000 },
-                );
-              }
-            })
-          : null,
-      );
-    };
-
-    // permet de centrer la carte sur sa localisation
-    // goToUserLocation();
-
     return (
       <SafeAreaView style={styles.container}>
         <ModalFilter showOverlay={overlayFilter} onOverlayChange={setOverlayFilter} stores={stores} />
         <MapView
-          ref={mapView}
-          initialRegion={initialRegion}
+          ref={mapSettings.mapView}
+          initialRegion={mapSettings.initialRegion}
           style={styles.map}
           showsUserLocation={true}
           compassOffset={{ x: -WINDOW_WIDTH + 60, y: 20 }}
           clusterColor={isDarkMode ? colors.lightGrey : colors.secondaryMarker}
         >
-          <Geojson geojson={laPlace} strokeColor="red" fillColor="green" strokeWidth={2} />
           {stores.map(store => {
             const list = Object.values(store)[0];
-            console.log(list);
             return list.map((item: any) => {
               if (!item.location) {
                 return null;
@@ -130,17 +77,7 @@ export const MapScreen = inject(
                   key={item.id}
                   coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}
                   onPress={() => {
-                    mapView.current.animateCamera(
-                      {
-                        center: {
-                          latitude: item.location.lat,
-                          longitude: item.location.lng,
-                        },
-                        altitude: 10000,
-                        zoom: 10,
-                      },
-                      { duration: 1000 },
-                    );
+                    mapSettings.goToMarkerLocation(item);
                   }}
                 >
                   <MaterialCommunityIcons
@@ -151,8 +88,6 @@ export const MapScreen = inject(
                   <Callout
                     tooltip
                     onPress={() => {
-                      console.log('--------item--------');
-                      console.log(item);
                       navigation.navigate('MapDetail', item);
                     }}
                   >
@@ -169,7 +104,7 @@ export const MapScreen = inject(
             });
           })}
         </MapView>
-        <TouchableOpacity style={styles.myLocationContainer} onPress={() => goToUserLocation()}>
+        <TouchableOpacity style={styles.myLocationContainer} onPress={() => mapSettings.goToUserLocation()}>
           <MaterialIcons name="my-location" size={32} color={colors.mainColor} style={styles.myLocation} />
         </TouchableOpacity>
       </SafeAreaView>
