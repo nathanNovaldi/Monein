@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { TransitionPresets, createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { StackNavigationOptions } from '@react-navigation/stack/lib/typescript/src/types';
@@ -19,6 +19,7 @@ import { sizes } from './shared/theme/sizes';
 import { AgendaDetailScreen } from './features/agenda/AgendaDetailScreen';
 import { AgendaScreen } from './features/agenda/AgendaScreen';
 import { RecyclingScreen } from './features/recycling/RecyclingScreen';
+import { DrawerScreen } from './features/drawerNavigator/drawerScreen';
 import { MapScreen } from './features/map/MapScreen';
 import { RucheScreen } from './features/ruche/RucheScreen';
 import { MapDetailScreen } from './features/map/MapDetailScreen';
@@ -31,14 +32,26 @@ import NotificationsScreen from './features/notifications/NotificationScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { oneSignalSubscription, setItemAsyncStorage } from './features/notifications/utils';
 import { checkboxes } from './features/notifications/components/checkbox';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Text } from 'react-native-svg';
+import { Icon } from 'react-native-elements';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { createNavigationContainerRef } from '@react-navigation/core';
 
-type RootStackParamList = {
-  HomeScreen: undefined;
-  DetailsScreen: undefined;
-};
+const Stack = createStackNavigator();
 
-const Stack = createStackNavigator<RootStackParamList>();
+const navigationRef = createNavigationContainerRef();
+
+const externalUserId = '123456789';
+
+OneSignal.disablePush(function () {
+  OneSignal.setExternalUserId(externalUserId);
+});
 
 // OneSignal Init Code
 OneSignal.setLogLevel(6, 0);
@@ -87,15 +100,20 @@ const generalNavigatorOptions: StackNavigationOptions = {
   headerStyle: {
     shadowOpacity: 0,
     elevation: 0,
-    backgroundColor: colors.navBarColor,
+    backgroundColor: '#ffffff',
+    height: 50,
   },
   headerBackTitleStyle: {
-    color: colors.navBarIconColor,
+    color: '#000000',
     left: 5,
+    bottom: 10,
   },
   headerTitle: () => <LogoTitle />,
   // eslint-disable-next-line react-native/no-inline-styles
-  headerBackImage: () => <AntDesign name="left" size={20} color={colors.navBarIconColor} style={{ left: 5 }} />,
+  headerBackImage: () => <AntDesign name="left" size={20} color="#000000" style={{ left: 5, bottom: 10 }} />,
+  headerRight: () => (
+    <SimpleLineIcons name="bell" size={20} color="#000000" style={styles.notification} onPress={() => {}} />
+  ),
 };
 
 export default function App() {
@@ -137,7 +155,11 @@ export default function App() {
   return (
     <Provider {...stores}>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <View>
+          <View style={styles.whiteBar} />
+          <View style={styles.topBar} />
+        </View>
+        <NavigationContainer ref={navigationRef}>
           <Stack.Navigator initialRouteName="Splash" screenOptions={generalNavigatorOptions}>
             <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={HomeScreen} />
@@ -153,14 +175,95 @@ export default function App() {
             <Stack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
             <Stack.Screen name="Notifications" component={NotificationsScreen} />
             <Stack.Screen name="MapDetail" component={MapDetailScreen} />
+            <Stack.Screen name="Drawer" component={DrawerScreen} />
           </Stack.Navigator>
           <Toast ref={ref => Toast.setRef(ref)} />
         </NavigationContainer>
+        <View style={styles.bottomBar}>
+          <TouchableOpacity
+            style={styles.bouton}
+            onPress={() => {
+              Linking.openURL(url);
+            }}
+          >
+            <MaterialIcons name="home" size={35} color="#31AA9B" style={styles.home} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.bouton}
+            onPress={() => {
+              Linking.openURL(url);
+            }}
+          >
+            <AntDesign name="calendar" size={30} color="#31AA9B" style={styles.calendar} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.bouton}
+            onPress={() => {
+              Linking.openURL(url);
+            }}
+          >
+            <FontAwesome5Icon name="map-marker-alt" size={30} color="#31AA9B" style={styles.marker} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.bouton}
+            onPress={() => {
+              Linking.openURL(url);
+            }}
+          >
+            <SimpleLineIcons name="book-open" size={30} color="#31AA9B" style={styles.book} />
+          </TouchableOpacity>
+        </View>
       </SafeAreaProvider>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  LOGO: { width: 100, height: 50 },
+  LOGO: { width: 100, height: 50, bottom: 10 },
+
+  topBar: {
+    backgroundColor: '#2C2C2C',
+    height: 40,
+  },
+
+  bottomBar: {
+    backgroundColor: '#1C7069',
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingLeft: 9,
+    paddingRight: 15,
+  },
+  whiteBar: {
+    height: 20,
+  },
+
+  googleMaps: {
+    alignItems: 'center',
+  },
+
+  home: {
+    alignItems: 'center',
+    paddingRight: 6,
+  },
+
+  calendar: {
+    alignItems: 'center',
+  },
+
+  marker: {
+    alignItems: 'center',
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+
+  book: {
+    alignItems: 'center',
+  },
+
+  notification: {
+    marginRight: 6,
+    bottom: 10,
+  },
 });

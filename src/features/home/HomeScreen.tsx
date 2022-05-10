@@ -1,11 +1,21 @@
-import { useNavigation } from '@react-navigation/native';
+import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerActions, DrawerNavigationState, NavigationContainer, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { View } from 'react-native-interactable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { openDrawer } from 'react-navigation-drawer/lib/typescript/src/routers/DrawerActions';
+import { RootStackParams } from '../../App';
 import { colors, HOME_LAYOUT } from '../../config/config';
 import { NewsSlideShow } from '../news/component/NewsSlideShow';
 import { newsStore } from '../news/NewsStore';
 import { HomeButtonsList } from './component/HomeButtonsList';
+import { NewsListScreen } from '../news/NewsListScreen';
+import { AgendaScreen } from '../agenda/AgendaScreen';
+import { MapScreen } from '../map/MapScreen';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
@@ -16,17 +26,7 @@ export const HomeScreen = () => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <Ionicons
-          name="notifications"
-          size={26}
-          color={colors.navBarIconColor}
-          style={styles.notification}
-          onPress={() => {
-            navigation.navigate('Notifications');
-          }}
-        />
-      ),
+      headerLeft: null,
     });
   });
 

@@ -14,7 +14,7 @@ export const SplashScreen = () => {
   useEffect(() => {
     setTimeout(() => {
       Log.d('Splash', 'Showing home');
-      navigation.replace('Home');
+      navigation.navigate('Home');
     }, 3000);
   });
   return (
