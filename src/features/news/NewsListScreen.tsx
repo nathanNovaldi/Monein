@@ -5,6 +5,9 @@ import { StyleSheet, View, SafeAreaView, RefreshControl, FlatList } from 'react-
 import { colors } from '../../config/config';
 import { NewsItem } from './component/NewsItem';
 import { newsStore, NewsStore } from './NewsStore';
+import Menu from '../menuBottom/Menu';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParams } from '../../App';
 
 type Props = {
   newsStore: NewsStore;
@@ -26,7 +29,7 @@ export const NewsListScreen = inject('newsStore')(
           style={styles.list}
           data={news}
           renderItem={({ item }) => {
-            return <NewsItem news={item} onPress={() => navigation.navigate('NewsDetail', { newsId: item.id })} />;
+            return <NewsItem news={item} onPress={() => navigation.navigate('NewsDetail', { itemID: item.id })} />;
           }}
           ItemSeparatorComponent={() => {
             return <View style={styles.line} />;

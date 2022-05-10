@@ -10,6 +10,7 @@ import { AgendaMap } from './component/AgendaMap';
 import { ModalFilter } from './component/ModalFilter';
 import { AgendaHeaderDate } from './component/AgendaHeaderDate';
 import { AGENDA_MAP_ENABLED, colors } from '../../config/config';
+import Menu from '../menuBottom/Menu';
 
 export const AgendaScreen = () => {
   const [mapVisible, setMapVisible] = useState(false);

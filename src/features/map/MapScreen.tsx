@@ -15,6 +15,7 @@ import { AgendaStore } from '../agenda/AgendaStore';
 import { RecyclingStore } from '../recycling/RecyclingStore';
 import { ModalFilter } from './component/ModalFilter';
 import { MapSettings } from './component/MapSettings';
+import Menu from '../menuBottom/Menu';
 
 type Props = {
   agendaStore: AgendaStore;
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   },
   myLocationContainer: {
     position: 'absolute',
-    top: 410,
+    top: 350,
     right: 15,
     zIndex: 2,
     width: 50,

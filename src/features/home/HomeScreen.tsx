@@ -16,17 +16,18 @@ import { AgendaScreen } from '../agenda/AgendaScreen';
 import { MapScreen } from '../map/MapScreen';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Menu from '../menuBottom/Menu';
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
-
   useEffect(() => {
     newsStore.fetchIfNeeded();
   });
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: null,
+      headerBackButtonMenuEnabled: false,
+      headerBackVisible: false,
     });
   });
 

@@ -14,6 +14,7 @@ import { sizes } from '../../shared/theme/sizes';
 import { AgendaStore } from './AgendaStore';
 import { WINDOW_WIDTH } from '../../shared/Variables';
 import RenderHtml from 'react-native-render-html';
+import Menu from '../menuBottom/Menu';
 
 type Props = {
   route: any;

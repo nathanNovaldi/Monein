@@ -6,6 +6,7 @@ import { View } from 'react-native-interactable';
 import WebView from 'react-native-webview';
 import { colors } from '../../config/config';
 import { LoadingSpinner } from '../../shared/components/LoadingSpinner';
+import Menu from '../menuBottom/Menu';
 
 type Props = { route: { params: { url: 'string'; canNav: boolean } } };
 
@@ -115,6 +116,7 @@ export const WebViewDynamicHtmlScreen = inject('newsStore')(
             originWhitelist={['*']}
           />
         </View>
+        <Menu />
       </SafeAreaView>
     );
   }),

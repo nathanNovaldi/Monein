@@ -41,11 +41,36 @@ import { Icon } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { createNavigationContainerRef } from '@react-navigation/core';
+import { createNavigationContainerRef, useNavigationContainerRef } from '@react-navigation/core';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+  Home;
+  NewsListStack: NewsListStackParams;
+  Agenda;
+  Map;
+};
 
-const navigationRef = createNavigationContainerRef();
+const Stack = createBottomTabNavigator<RootStackParams>();
+
+export type NewsListStackParams = {
+  NewsList;
+  NewsDetail: {
+    itemID: any;
+  };
+};
+
+const NewsListStack = createNativeStackNavigator<NewsListStackParams>();
+
+const NewScreenStack = () => {
+  return (
+    <NewsListStack.Navigator initialRouteName="NewsList">
+      <NewsListStack.Screen name="NewsList" component={NewsListScreen} />
+      <NewsListStack.Screen name="NewsDetail" component={NewsDetailScreen} />
+    </NewsListStack.Navigator>
+  );
+};
 
 const externalUserId = '123456789';
 
@@ -159,67 +184,22 @@ export default function App() {
           <View style={styles.whiteBar} />
           <View style={styles.topBar} />
         </View>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer>
           <Stack.Navigator initialRouteName="Splash" screenOptions={generalNavigatorOptions}>
-            <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="NewsList" component={NewsListScreen} />
-            <Stack.Screen name="NewsDetail" component={NewsDetailScreen} />
+            <Stack.Screen name="NewsListStack" component={NewScreenStack} options={{ headerShown: false }} />
             <Stack.Screen name="Agenda" component={AgendaScreen} />
-            <Stack.Screen name="AgendaDetail" component={AgendaDetailScreen} />
-            <Stack.Screen name="Recycling" component={RecyclingScreen} />
-            <Stack.Screen name="Menu" component={MenuScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="Ruche" component={RucheScreen} />
-            <Stack.Screen name="WebViewDynamic" component={WebViewDynamicHtmlScreen} />
-            <Stack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
-            <Stack.Screen name="Notifications" component={NotificationsScreen} />
-            <Stack.Screen name="MapDetail" component={MapDetailScreen} />
-            <Stack.Screen name="Drawer" component={DrawerScreen} />
           </Stack.Navigator>
           <Toast ref={ref => Toast.setRef(ref)} />
         </NavigationContainer>
-        <View style={styles.bottomBar}>
-          <TouchableOpacity
-            style={styles.bouton}
-            onPress={() => {
-              Linking.openURL(url);
-            }}
-          >
-            <MaterialIcons name="home" size={35} color="#31AA9B" style={styles.home} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.bouton}
-            onPress={() => {
-              Linking.openURL(url);
-            }}
-          >
-            <AntDesign name="calendar" size={30} color="#31AA9B" style={styles.calendar} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.bouton}
-            onPress={() => {
-              Linking.openURL(url);
-            }}
-          >
-            <FontAwesome5Icon name="map-marker-alt" size={30} color="#31AA9B" style={styles.marker} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.bouton}
-            onPress={() => {
-              Linking.openURL(url);
-            }}
-          >
-            <SimpleLineIcons name="book-open" size={30} color="#31AA9B" style={styles.book} />
-          </TouchableOpacity>
-        </View>
       </SafeAreaProvider>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  LOGO: { width: 100, height: 50, bottom: 10 },
+  LOGO: { width: 100, height: 50, bottom: 3 },
 
   topBar: {
     backgroundColor: '#2C2C2C',
@@ -262,8 +242,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  notification: {
-    marginRight: 6,
-    bottom: 10,
-  },
+  notification: {},
 });

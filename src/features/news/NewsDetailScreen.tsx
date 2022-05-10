@@ -8,6 +8,10 @@ import { WINDOW_WIDTH } from '../../shared/Variables';
 import { NewsStore } from './NewsStore';
 import { sizes } from '../../shared/theme/sizes';
 import I18n from '../../config/locales';
+import Menu from '../menuBottom/Menu';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParams } from '../../App';
+import { useNavigation } from '@react-navigation/core';
 
 type Props = {
   route: any;
@@ -17,7 +21,7 @@ type Props = {
 export const NewsDetailScreen = inject('newsStore')(
   observer((props: Props) => {
     const { route, newsStore } = props;
-    const { newsId } = route.params;
+    const newsId = route.params.itemID;
     const news = newsStore.getNews(newsId);
 
     if (news) {
@@ -38,8 +42,9 @@ export const NewsDetailScreen = inject('newsStore')(
           </ScrollView>
         </SafeAreaView>
       );
+    } else {
+      return null;
     }
-    return null;
   }),
 );
 

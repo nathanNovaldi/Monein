@@ -11,6 +11,7 @@ import { Image } from 'react-native-svg';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useRoute } from '@react-navigation/core';
+import Menu from '../menuBottom/Menu';
 
 type Props = {
   route: any;
@@ -19,8 +20,6 @@ type Props = {
 
 export const MapDetailScreen = ({ route }) => {
   const item = route.params;
-  console.log('---------dzdzdzdzzdzdz---------');
-  console.log(item);
 
   const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
   const latLng = `${item.location.lat},${item.location.lng}`;
@@ -38,7 +37,7 @@ export const MapDetailScreen = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.titre}>{item.name}</Text>
       <MapView initialRegion={initialRegion} style={styles.map} showsUserLocation={true}>
         <Marker key={item.id} coordinate={{ longitude: item.location.lng, latitude: item.location.lat }} />
@@ -55,31 +54,37 @@ export const MapDetailScreen = ({ route }) => {
           <Text>S'Y RENDRE</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.soustitre}>INFORMATIONS</Text>
-      <Text style={styles.text}>Adresse: {item.address}</Text>
-      <Text style={styles.text}>Code Postal: {item.city}</Text>
-      <Text style={styles.text}>ID: {item.id}</Text>
-      <Text style={styles.text}>latitude: {item.location.lat}</Text>
-      <Text style={styles.text}>longitude: {item.location.lng}</Text>
-    </View>
+      <View style={styles.details}>
+        <Text style={styles.soustitre}>INFORMATIONS</Text>
+        <Text style={styles.text}>Adresse: {item.address}</Text>
+        <Text style={styles.text}>Code Postal: {item.city}</Text>
+        <Text style={styles.text}>ID: {item.id}</Text>
+        <Text style={styles.text}>latitude: {item.location.lat}</Text>
+        <Text style={styles.text}>longitude: {item.location.lng}</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    backgroundColor: '#ffff00',
   },
 
   titre: {
     fontSize: 17,
     color: colors.mainColor,
+    marginTop:0,
     textAlign: 'center',
     padding: 6,
+    backgroundColor: '#ff00ff',
   },
 
   text: {
     paddingLeft: 12,
+    backgroundColor: '#00FFFF',
   },
 
   map: {
@@ -118,5 +123,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
+  },
+
+  details: {
+    flex: 1,
   },
 });

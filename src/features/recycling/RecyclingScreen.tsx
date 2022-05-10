@@ -14,6 +14,7 @@ import { DescriptionMarker } from './component/DescriptionMarker';
 import { ModalFilter } from './component/ModalFilter';
 import { RecyclingCenter } from './RecyclingCenter';
 import { RecyclingStore } from './RecyclingStore';
+import Menu from '../menuBottom/Menu';
 
 type Props = {
   recyclingStore: RecyclingStore;
@@ -151,6 +152,7 @@ export const RecyclingScreen = inject('recyclingStore')(
         <TouchableOpacity style={styles.myLocationContainer} onPress={() => goToUserLocation()}>
           <MaterialIcons name="my-location" size={32} color={colors.mainColor} style={styles.myLocation} />
         </TouchableOpacity>
+        <Menu />
       </SafeAreaView>
     );
   }),

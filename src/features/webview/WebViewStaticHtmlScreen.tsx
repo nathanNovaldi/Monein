@@ -6,6 +6,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 import { colors } from '../../config/config';
 import { LoadingSpinner } from '../../shared/components/LoadingSpinner';
+import Menu from '../menuBottom/Menu';
 
 type Props = {
   route: { params: { url: 'string'; html: string; cacheKey: string } };
@@ -83,6 +84,7 @@ export const WebViewStaticHtmlScreen = inject('newsStore')(
           style={{ backgroundColor: 'transparent', height: 8000 }}
           originWhitelist={['*']}
         />
+        <Menu />
       </SafeAreaView>
     );
   }),

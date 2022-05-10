@@ -8,6 +8,7 @@ import { CustomCheckBox, CheckBoxT, checkboxes } from './components/checkbox';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../shared/Variables';
 import Log from '../../shared/Log';
 import { colors } from '../../config/config';
+import Menu from '../menuBottom/Menu';
 
 // Tips and tricks: ici on peux utilise getTags au lieu de set les notifications dans l'asyncstorage
 // https://documentation.onesignal.com/docs/react-native-sdk#section-sending-and-getting-onesignal-tags
@@ -65,6 +66,7 @@ const NotificationsScreen: React.FC = () => {
         <Text style={styles.text}>Quelles notifications souhaitez-vous recevoir ?</Text>
         <CustomCheckBox handleCheckboxSelection={handleCheckboxSelection} selectedItems={selectedItems} />
       </ScrollView>
+      <Menu />
     </SafeAreaView>
   );
 };
