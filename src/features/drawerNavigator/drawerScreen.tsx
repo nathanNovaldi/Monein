@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AgendaScreen } from '../agenda/AgendaScreen';
 import { HomeScreen } from '../home/HomeScreen';
 import { MapScreen } from '../map/MapScreen';
-import { NewsListScreen } from '../news/NewsListScreen';
+import { NewsListScreen } from '../news/ActuScreen';
 
 const DrawerNavigator = createDrawerNavigator();
 export const DrawerScreen = () => {

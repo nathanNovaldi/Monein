@@ -11,7 +11,7 @@ import { colors, HOME_LAYOUT } from '../../config/config';
 import { NewsSlideShow } from '../news/component/NewsSlideShow';
 import { newsStore } from '../news/NewsStore';
 import { HomeButtonsList } from './component/HomeButtonsList';
-import { NewsListScreen } from '../news/NewsListScreen';
+import { NewsListScreen } from '../news/ActuScreen';
 import { AgendaScreen } from '../agenda/AgendaScreen';
 import { MapScreen } from '../map/MapScreen';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -28,6 +28,17 @@ export const HomeScreen = () => {
     navigation.setOptions({
       headerBackButtonMenuEnabled: false,
       headerBackVisible: false,
+      headerRight: () => (
+        <SimpleLineIcons
+          name="bell"
+          size={20}
+          color="#000000"
+          style={styles.notification}
+          onPress={() => {
+            navigation.navigate('notification');
+          }}
+        />
+      ),
     });
   });
 
@@ -49,7 +60,5 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  notification: {
-    marginRight: 25,
-  },
+  notification: {},
 });

@@ -12,7 +12,7 @@ import { MenuScreen } from './features/menu/MenuScreen';
 import { newsStore } from './features/news/NewsStore';
 import { agendaStore } from './features/agenda/AgendaStore';
 import { recyclingStore } from './features/recycling/RecyclingStore';
-import { NewsListScreen } from './features/news/NewsListScreen';
+import { ActuScreen } from './features/news/ActuScreen';
 import { NewsDetailScreen } from './features/news/NewsDetailScreen';
 import { fonts } from './shared/theme/fonts';
 import { sizes } from './shared/theme/sizes';
@@ -43,32 +43,116 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { createNavigationContainerRef, useNavigationContainerRef } from '@react-navigation/core';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 export type RootStackParams = {
-  Home;
-  NewsListStack: NewsListStackParams;
-  Agenda;
-  Map;
+  HomeStack: HomeStackParams;
+  ActuStack: ActuStackParams;
+  AgendaStack: AgendaStackParams;
+  MapStack: MapStackParams;
 };
 
 const Stack = createBottomTabNavigator<RootStackParams>();
 
-export type NewsListStackParams = {
-  NewsList;
+export type ActuStackParams = {
+  Actu;
   NewsDetail: {
     itemID: any;
   };
 };
 
-const NewsListStack = createNativeStackNavigator<NewsListStackParams>();
+const ActuStack = createNativeStackNavigator<ActuStackParams>();
 
-const NewScreenStack = () => {
+const ActuScreenStack = () => {
   return (
-    <NewsListStack.Navigator initialRouteName="NewsList">
-      <NewsListStack.Screen name="NewsList" component={NewsListScreen} />
-      <NewsListStack.Screen name="NewsDetail" component={NewsDetailScreen} />
-    </NewsListStack.Navigator>
+    <ActuStack.Navigator
+      initialRouteName="Actu"
+      screenOptions={{
+        headerBackTitleVisible: true,
+        headerTintColor: '#000000',
+        headerTitle: () => <LogoTitle />,
+      }}
+    >
+      <ActuStack.Screen name="Actu" component={ActuScreen} />
+      <ActuStack.Screen name="NewsDetail" component={NewsDetailScreen} />
+    </ActuStack.Navigator>
+  );
+};
+
+export type AgendaStackParams = {
+  Agenda;
+  AgendaDetail: {
+    itemID: any;
+  };
+};
+
+const AgendaStack = createNativeStackNavigator<AgendaStackParams>();
+
+const AgendaScreenStack = () => {
+  return (
+    <AgendaStack.Navigator
+      initialRouteName="Agenda"
+      screenOptions={{
+        headerBackTitleVisible: true,
+        headerTintColor: '#000000',
+        headerTitle: () => <LogoTitle />,
+      }}
+    >
+      <AgendaStack.Screen name="Agenda" component={AgendaScreen} />
+      <AgendaStack.Screen name="AgendaDetail" component={AgendaDetailScreen} />
+    </AgendaStack.Navigator>
+  );
+};
+
+export type MapStackParams = {
+  Map;
+  MapDetail: {
+    itemID: any;
+  };
+};
+
+const MapStack = createNativeStackNavigator<MapStackParams>();
+
+const MapScreenStack = () => {
+  return (
+    <MapStack.Navigator
+      initialRouteName="Map"
+      screenOptions={{
+        headerBackTitleVisible: true,
+        headerTintColor: '#000000',
+        headerTitle: () => <LogoTitle />,
+      }}
+    >
+      <MapStack.Screen name="Map" component={MapScreen} />
+      <MapStack.Screen name="MapDetail" component={MapDetailScreen} />
+    </MapStack.Navigator>
+  );
+};
+
+export type HomeStackParams = {
+  Home;
+  WebViewDynamic;
+  WebViewStatic;
+  notification;
+};
+
+const HomeStack = createNativeStackNavigator<HomeStackParams>();
+
+const HomeScreenStack = () => {
+  return (
+    <HomeStack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerBackTitleVisible: true,
+        headerTintColor: '#000000',
+        headerTitle: () => <LogoTitle />,
+      }}
+    >
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="WebViewDynamic" component={WebViewDynamicHtmlScreen} />
+      <HomeStack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
+      <HomeStack.Screen name="notification" component={NotificationsScreen} />
+    </HomeStack.Navigator>
   );
 };
 
@@ -114,7 +198,7 @@ function LogoTitle() {
   return <LOGO style={styles.LOGO} />;
 }
 
-const generalNavigatorOptions: StackNavigationOptions = {
+const generalNavigatorOptions: BottomTabNavigationOptions = {
   ...TransitionPresets.SlideFromRightIOS,
   headerTitleAlign: 'center',
   headerTitleStyle: {
@@ -128,17 +212,22 @@ const generalNavigatorOptions: StackNavigationOptions = {
     backgroundColor: '#ffffff',
     height: 50,
   },
-  headerBackTitleStyle: {
+  tabBarActiveTintColor: '#ffffff',
+  tabBarInactiveTintColor: '#30AC9B',
+  tabBarShowLabel: false,
+  tabBarStyle: {
+    backgroundColor: '#1C7069',
+  },
+
+  // headerShown: false,
+  /* headerBackTitleStyle: {
     color: '#000000',
     left: 5,
     bottom: 10,
-  },
+  }, */
   headerTitle: () => <LogoTitle />,
   // eslint-disable-next-line react-native/no-inline-styles
-  headerBackImage: () => <AntDesign name="left" size={20} color="#000000" style={{ left: 5, bottom: 10 }} />,
-  headerRight: () => (
-    <SimpleLineIcons name="bell" size={20} color="#000000" style={styles.notification} onPress={() => {}} />
-  ),
+  /* headerBackImage: () => <AntDesign name="left" size={20} color="#000000" style={{ left: 5, bottom: 10 }} />, */
 };
 
 export default function App() {
@@ -186,10 +275,50 @@ export default function App() {
         </View>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Splash" screenOptions={generalNavigatorOptions}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="NewsListStack" component={NewScreenStack} options={{ headerShown: false }} />
-            <Stack.Screen name="Agenda" component={AgendaScreen} />
-            <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen
+              name="HomeStack"
+              component={HomeScreenStack}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialIcons name="home" size={size} color={color} style={styles.home} />
+                ),
+                tabBarLabel: 'Home',
+              }}
+            />
+            <Stack.Screen
+              name="ActuStack"
+              component={ActuScreenStack}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <SimpleLineIcons name="book-open" size={size} color={color} style={styles.book} />
+                ),
+                tabBarLabel: 'News',
+              }}
+            />
+            <Stack.Screen
+              name="AgendaStack"
+              component={AgendaScreenStack}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <AntDesign name="calendar" size={size} color={color} style={styles.calendar} />
+                ),
+                tabBarLabel: 'Agenda',
+              }}
+            />
+            <Stack.Screen
+              name="MapStack"
+              component={MapScreenStack}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <FontAwesome5Icon name="map-marker-alt" size={size} color={color} style={styles.marker} />
+                ),
+                tabBarLabel: 'Map',
+              }}
+            />
           </Stack.Navigator>
           <Toast ref={ref => Toast.setRef(ref)} />
         </NavigationContainer>

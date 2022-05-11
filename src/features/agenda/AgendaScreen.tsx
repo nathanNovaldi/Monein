@@ -97,9 +97,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '103%',
   },
-  filterIcon: {
-    marginRight: 25,
-  },
+  filterIcon: {},
   filterModal: {
     width: 4,
     height: 4,

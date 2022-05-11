@@ -13,7 +13,7 @@ type Props = {
   newsStore: NewsStore;
 };
 
-export const NewsListScreen = inject('newsStore')(
+export const ActuScreen = inject('newsStore')(
   observer((props: Props) => {
     const { news } = props.newsStore;
     const navigation = useNavigation();

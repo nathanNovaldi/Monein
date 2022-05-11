@@ -13,6 +13,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useRoute } from '@react-navigation/core';
 import Menu from '../menuBottom/Menu';
 
+import SY_RENDRE_ICON from './icons/picto-sy-rendre.svg';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
 type Props = {
   route: any;
   item: any;
@@ -40,7 +43,9 @@ export const MapDetailScreen = ({ route }) => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.titre}>{item.name}</Text>
       <MapView initialRegion={initialRegion} style={styles.map} showsUserLocation={true}>
-        <Marker key={item.id} coordinate={{ longitude: item.location.lng, latitude: item.location.lat }} />
+        <Marker key={item.id} coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}>
+          <FontAwesome5Icon name="map-marker-alt" size={30} color="#1C7069" style={styles.marker} />
+        </Marker>
       </MapView>
 
       <View style={styles.menu}>
@@ -50,8 +55,11 @@ export const MapDetailScreen = ({ route }) => {
             Linking.openURL(url);
           }}
         >
-          <MaterialIcons name="map" size={32} color={colors.mainColor} style={styles.googleMaps} />
-          <Text>S'Y RENDRE</Text>
+          <View style={styles.buttonStyle}>
+            <SY_RENDRE_ICON style={{ width: 30, height: 30 }} />
+          </View>
+
+          <Text style={{ color: colors.mainColor }}>S'Y RENDRE</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.details}>
@@ -70,13 +78,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ffff00',
+    backgroundColor: '#ffffff',
   },
 
   titre: {
     fontSize: 17,
     color: colors.mainColor,
-    marginTop:0,
+    marginTop: 0,
     textAlign: 'center',
     padding: 6,
     backgroundColor: '#ff00ff',
@@ -110,6 +118,7 @@ const styles = StyleSheet.create({
   bouton: {
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
 
   googleMaps: {
@@ -127,5 +136,20 @@ const styles = StyleSheet.create({
 
   details: {
     flex: 1,
+  },
+
+  buttonStyle: {
+    backgroundColor: colors.btn_background,
+    borderWidth: 1,
+    borderColor: colors.mainColor,
+    borderRadius: 4,
+    padding: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 7,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: colors.darkGrey,
   },
 });

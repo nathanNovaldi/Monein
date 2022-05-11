@@ -84,7 +84,6 @@ export const WebViewStaticHtmlScreen = inject('newsStore')(
           style={{ backgroundColor: 'transparent', height: 8000 }}
           originWhitelist={['*']}
         />
-        <Menu />
       </SafeAreaView>
     );
   }),

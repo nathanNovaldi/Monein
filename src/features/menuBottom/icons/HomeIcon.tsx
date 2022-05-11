@@ -6,7 +6,7 @@ interface Props {
   size: number;
 }
 
-function HomeIcons(props: Props) {
+function HomeIcon(props: Props) {
   return (
     <Svg viewBox="0 0 512 512" width={props.size} height={props.size}>
       <Path
@@ -28,4 +28,4 @@ function HomeIcons(props: Props) {
   );
 }
 
-export default HomeIcons;
+export default HomeIcon;

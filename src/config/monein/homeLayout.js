@@ -24,7 +24,7 @@ export const buttonList = [
     x: 0,
     y: 0,
     title: 'home.show_news',
-    redirection: 'NewsList',
+    redirection: 'ActuStack',
     getIcon: on => <NEWS_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
   },
   {
@@ -33,7 +33,7 @@ export const buttonList = [
     x: 16,
     y: 0,
     title: 'home.show_agenda',
-    redirection: 'Agenda',
+    redirection: 'AgendaStack',
     getIcon: on => <AGENDA_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
   },
   {
@@ -120,7 +120,7 @@ export const buttonList = [
     x: 0,
     y: 64,
     title: 'home.carte',
-    redirection: 'Map',
+    redirection: 'MapStack',
     getIcon: on => <CARTE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
   },
   {

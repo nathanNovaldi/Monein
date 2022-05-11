@@ -16,6 +16,9 @@ import { RecyclingStore } from '../recycling/RecyclingStore';
 import { ModalFilter } from './component/ModalFilter';
 import { MapSettings } from './component/MapSettings';
 import Menu from '../menuBottom/Menu';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
+
 
 type Props = {
   agendaStore: AgendaStore;
@@ -81,11 +84,7 @@ export const MapScreen = inject(
                     mapSettings.goToMarkerLocation(item);
                   }}
                 >
-                  <MaterialCommunityIcons
-                    name="map-marker"
-                    size={40}
-                    color={isDarkMode ? colors.lightGrey : colors.secondaryMarker}
-                  />
+                  <FontAwesome5Icon name="map-marker-alt" size={30} color="#1C7069" style={styles.marker} />
                   <Callout
                     tooltip
                     onPress={() => {
@@ -157,15 +156,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  filterIcon: {
-    marginRight: 25,
-  },
+  filterIcon: {},
   map: {
     flex: 1,
   },
   myLocationContainer: {
     position: 'absolute',
-    top: 350,
+    top: 340,
     right: 15,
     zIndex: 2,
     width: 50,

@@ -116,7 +116,6 @@ export const WebViewDynamicHtmlScreen = inject('newsStore')(
             originWhitelist={['*']}
           />
         </View>
-        <Menu />
       </SafeAreaView>
     );
   }),

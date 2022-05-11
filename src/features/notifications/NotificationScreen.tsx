@@ -66,7 +66,6 @@ const NotificationsScreen: React.FC = () => {
         <Text style={styles.text}>Quelles notifications souhaitez-vous recevoir ?</Text>
         <CustomCheckBox handleCheckboxSelection={handleCheckboxSelection} selectedItems={selectedItems} />
       </ScrollView>
-      <Menu />
     </SafeAreaView>
   );
 };

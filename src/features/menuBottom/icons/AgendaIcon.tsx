@@ -6,7 +6,7 @@ interface Props {
   size: number;
 }
 
-function MapIcon(props: Props) {
+function AgendaIcon(props: Props) {
   return (
     <Svg viewBox="0 0 512 512" width={props.size} height={props.size}>
       <Path
@@ -28,4 +28,4 @@ function MapIcon(props: Props) {
   );
 }
 
-export default MapIcon;
+export default AgendaIcon;
