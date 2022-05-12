@@ -18,8 +18,6 @@ import { MapSettings } from './component/MapSettings';
 import Menu from '../menuBottom/Menu';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-
-
 type Props = {
   agendaStore: AgendaStore;
   recyclingStore: RecyclingStore;
@@ -48,7 +46,7 @@ export const MapScreen = inject(
           <FontAwesome5
             name="filter"
             size={20}
-            color={colors.navBarIconColor}
+            color="#000000"
             style={styles.filterIcon}
             onPress={() => {
               setOverlayFilter(true);

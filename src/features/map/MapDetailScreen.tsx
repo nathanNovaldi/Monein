@@ -14,7 +14,11 @@ import { useRoute } from '@react-navigation/core';
 import Menu from '../menuBottom/Menu';
 
 import SY_RENDRE_ICON from './icons/picto-sy-rendre.svg';
+import PUCE_ICON from './icons/puce.svg';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { ScrollView } from 'react-native-gesture-handler';
+import { color } from 'react-native-reanimated';
+import { BackgroundImage } from 'react-native-elements/dist/config';
 
 type Props = {
   route: any;
@@ -40,7 +44,7 @@ export const MapDetailScreen = ({ route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.titre}>{item.name}</Text>
       <MapView initialRegion={initialRegion} style={styles.map} showsUserLocation={true}>
         <Marker key={item.id} coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}>
@@ -64,13 +68,38 @@ export const MapDetailScreen = ({ route }) => {
       </View>
       <View style={styles.details}>
         <Text style={styles.soustitre}>INFORMATIONS</Text>
-        <Text style={styles.text}>Adresse: {item.address}</Text>
-        <Text style={styles.text}>Code Postal: {item.city}</Text>
-        <Text style={styles.text}>ID: {item.id}</Text>
-        <Text style={styles.text}>latitude: {item.location.lat}</Text>
-        <Text style={styles.text}>longitude: {item.location.lng}</Text>
+        <View style={styles.ligne}>
+          <PUCE_ICON fill="#1C7368" />
+          <Text style={styles.text}>Adresse: {item.address}</Text>
+        </View>
+        <View style={styles.ligne}>
+          <PUCE_ICON fill="#1C7368" />
+          <Text style={styles.text}>Code Postal: {item.city}</Text>
+        </View>
+        <View style={styles.ligne}>
+          <PUCE_ICON fill="#1C7368" />
+          <Text style={styles.text}>ID: {item.id}</Text>
+        </View>
+        <View
+          style={{
+            borderBottomColor: '#1C7368',
+            borderBottomWidth: 0.25,
+            marginTop: 6,
+            marginLeft: 13,
+            marginRight: 13,
+            opacity: 0.7,
+          }}
+        />
+        <View style={styles.ligne}>
+          <PUCE_ICON fill="#1C7368" />
+          <Text style={styles.text}>latitude: {item.location.lat}</Text>
+        </View>
+        <View style={styles.ligne}>
+          <PUCE_ICON fill="#1C7368" />
+          <Text style={styles.text}>longitude: {item.location.lng}</Text>
+        </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -87,13 +116,9 @@ const styles = StyleSheet.create({
     marginTop: 0,
     textAlign: 'center',
     padding: 6,
-    backgroundColor: '#ff00ff',
   },
 
-  text: {
-    paddingLeft: 12,
-    backgroundColor: '#00FFFF',
-  },
+  text: {},
 
   map: {
     backgroundColor: '#55771D',
@@ -109,7 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   soustitre: {
-    backgroundColor: '#E3E3E4',
+    backgroundColor: '#EDEDED',
     padding: 6,
     fontSize: 15,
     paddingLeft: 12,
@@ -151,5 +176,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowOffset: { width: 1, height: 1 },
     shadowColor: colors.darkGrey,
+  },
+
+  ligne: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 6,
+    marginLeft: 10,
   },
 });

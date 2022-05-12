@@ -124,7 +124,13 @@ const MapScreenStack = () => {
       }}
     >
       <MapStack.Screen name="Map" component={MapScreen} />
-      <MapStack.Screen name="MapDetail" component={MapDetailScreen} />
+      <MapStack.Screen
+        name="MapDetail"
+        component={MapDetailScreen}
+        options={() => ({
+          headerShadowVisible: false, // applied here
+        })}
+      />
     </MapStack.Navigator>
   );
 };
@@ -134,6 +140,9 @@ export type HomeStackParams = {
   WebViewDynamic;
   WebViewStatic;
   notification;
+  NewsDetail: {
+    itemID: any;
+  };
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParams>();
@@ -152,6 +161,7 @@ const HomeScreenStack = () => {
       <HomeStack.Screen name="WebViewDynamic" component={WebViewDynamicHtmlScreen} />
       <HomeStack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
       <HomeStack.Screen name="notification" component={NotificationsScreen} />
+      <HomeStack.Screen name="NewsDetail" component={NewsDetailScreen} />
     </HomeStack.Navigator>
   );
 };

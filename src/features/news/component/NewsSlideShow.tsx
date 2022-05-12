@@ -28,7 +28,7 @@ export const NewsSlideShow = inject('newsStore')(
           height={220}
           images={images.slice(0, 3)}
           onPress={index => {
-            navigation.navigate('ActuStack', { screen: 'NewsDetail', params: { itemID: news[index].id } });
+            navigation.navigate('NewsDetail', { itemID: news[index].id });
           }}
           texts={texts.slice(0, 3)}
         />

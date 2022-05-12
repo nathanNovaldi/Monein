@@ -35,7 +35,7 @@ export const AgendaScreen = () => {
         <FontAwesome5
           name="filter"
           size={20}
-          color={colors.navBarIconColor}
+          color="#000000"
           style={styles.filterIcon}
           onPress={() => {
             setOverlayFilter(true);
