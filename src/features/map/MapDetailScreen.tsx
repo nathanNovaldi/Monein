@@ -29,7 +29,7 @@ export const MapDetailScreen = ({ route }) => {
   const item = route.params;
 
   const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-  const latLng = `${item.location.lat},${item.location.lng}`;
+  const latLng = `${item.lat},${item.lng}`;
   const label = item.name;
   const url = Platform.select({
     ios: `${scheme}${label}@${latLng}`,
@@ -37,17 +37,17 @@ export const MapDetailScreen = ({ route }) => {
   });
 
   const initialRegion: Region = {
-    latitude: item.location.lat,
-    longitude: item.location.lng,
+    latitude: item.lat,
+    longitude: item.lng,
     latitudeDelta: 0.02,
     longitudeDelta: 0.02,
   };
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.titre}>{item.name}</Text>
+      <Text style={styles.titre}>{item.category}</Text>
       <MapView initialRegion={initialRegion} style={styles.map} showsUserLocation={true}>
-        <Marker key={item.id} coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}>
+        <Marker key={item.id} coordinate={{ longitude: item.lng, latitude: item.lat }}>
           <FontAwesome5Icon name="map-marker-alt" size={30} color="#1C7069" style={styles.marker} />
         </Marker>
       </MapView>
@@ -70,7 +70,7 @@ export const MapDetailScreen = ({ route }) => {
         <Text style={styles.soustitre}>INFORMATIONS</Text>
         <View style={styles.ligne}>
           <PUCE_ICON fill="#1C7368" />
-          <Text style={styles.text}>Adresse: {item.address}</Text>
+          <Text style={styles.text}>Adresse: {item.body.replace(/(<([^>]+)>)/gi, '')}</Text>
         </View>
         <View style={styles.ligne}>
           <PUCE_ICON fill="#1C7368" />
@@ -92,11 +92,11 @@ export const MapDetailScreen = ({ route }) => {
         />
         <View style={styles.ligne}>
           <PUCE_ICON fill="#1C7368" />
-          <Text style={styles.text}>latitude: {item.location.lat}</Text>
+          <Text style={styles.text}>latitude: {item.lat}</Text>
         </View>
         <View style={styles.ligne}>
           <PUCE_ICON fill="#1C7368" />
-          <Text style={styles.text}>longitude: {item.location.lng}</Text>
+          <Text style={styles.text}>longitude: {item.lng}</Text>
         </View>
       </View>
     </ScrollView>

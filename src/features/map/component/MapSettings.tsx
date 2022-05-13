@@ -52,8 +52,8 @@ export class MapSettings {
               this.mapView.current.animateCamera(
                 {
                   center: {
-                    latitude: item.location.lat,
-                    longitude: item.location.lng,
+                    latitude: item.lat,
+                    longitude: item.lng,
                   },
                   altitude: 10000,
                   zoom: 10,

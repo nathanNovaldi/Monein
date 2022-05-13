@@ -10,6 +10,7 @@ import { SplashScreen } from './features/splash/SplashScreen';
 import { HomeScreen } from './features/home/HomeScreen';
 import { MenuScreen } from './features/menu/MenuScreen';
 import { newsStore } from './features/news/NewsStore';
+import { markersStore } from './features/map/MarkersStore';
 import { agendaStore } from './features/agenda/AgendaStore';
 import { recyclingStore } from './features/recycling/RecyclingStore';
 import { ActuScreen } from './features/news/ActuScreen';
@@ -44,6 +45,8 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { createNavigationContainerRef, useNavigationContainerRef } from '@react-navigation/core';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+// Navigation
 
 export type RootStackParams = {
   HomeStack: HomeStackParams;
@@ -166,6 +169,10 @@ const HomeScreenStack = () => {
   );
 };
 
+// fin Navigation
+
+// notif OneSignal
+
 const externalUserId = '123456789';
 
 OneSignal.disablePush(function () {
@@ -198,10 +205,13 @@ OneSignal.setNotificationOpenedHandler(notification => {
   Log.d('OneSignal', 'OneSignal: notification opened:', notification);
 });
 
+// fin notif OneSignal
+
 const stores = {
   newsStore,
   agendaStore,
   recyclingStore,
+  markersStore,
 };
 
 function LogoTitle() {

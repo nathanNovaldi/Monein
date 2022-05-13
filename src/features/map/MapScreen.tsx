@@ -1,7 +1,7 @@
 import Geolocation from '@react-native-community/geolocation';
 import { useNavigation } from '@react-navigation/native';
 import { inject, observer } from 'mobx-react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Appearance, SafeAreaView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import MapView from 'react-native-map-clustering';
 import { Callout, Marker, Region } from 'react-native-maps';
@@ -17,17 +17,37 @@ import { ModalFilter } from './component/ModalFilter';
 import { MapSettings } from './component/MapSettings';
 import Menu from '../menuBottom/Menu';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { getUserAgentSync } from 'react-native-device-info';
+import { MarkersStore } from './MarkersStore';
 
 type Props = {
   agendaStore: AgendaStore;
   recyclingStore: RecyclingStore;
+  markersStore: MarkersStore;
 };
 
-export const MapScreen = inject(
-  'agendaStore',
-  'recyclingStore',
-)(
+export const MapScreen = inject('markersStore')(
   observer((props: Props) => {
+    // recuperation marqueur
+    /*
+    const [markers, setMarkers] = useState([]);
+
+    useEffect(() => {
+      getMarkers();
+    }, []);
+
+    const getMarkers = () => {
+      fetch(
+        'https://www.monein.fr/wp-admin/admin-ajax.php?action=mapp_query&list=true&query%5bpost_type%5d=cpt_map&query%5bposts_per_page%5d=-1',
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (response) {
+          console.log(response.data);
+        });
+    };
+*/
     const stores = Object.entries(props)
       .filter(prop => {
         return prop[0].includes('Store');
@@ -70,14 +90,16 @@ export const MapScreen = inject(
           {stores.map(store => {
             const list = Object.values(store)[0];
             return list.map((item: any) => {
+              console.log('asasasasasas', item);
+              /*
               if (!item.location) {
                 return null;
-              }
+              } */
 
               return (
                 <Marker
                   key={item.id}
-                  coordinate={{ longitude: item.location.lng, latitude: item.location.lat }}
+                  coordinate={{ longitude: item.lng, latitude: item.lat }}
                   onPress={() => {
                     mapSettings.goToMarkerLocation(item);
                   }}
@@ -91,7 +113,7 @@ export const MapScreen = inject(
                   >
                     <View>
                       <View style={styles.bubble}>
-                        <Text style={styles.name}>{item.name}</Text>
+                        <Text style={styles.name}>{item.title}</Text>
                       </View>
                       <View style={styles.arrowBorder} />
                       <View style={styles.arrow} />

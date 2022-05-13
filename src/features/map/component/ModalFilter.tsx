@@ -8,6 +8,7 @@ import { sizes } from '../../../shared/theme/sizes';
 import { agendaStore } from '../../agenda/AgendaStore';
 import { recyclingStore } from '../../recycling/RecyclingStore';
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from '../../../shared/Variables';
+import { markersStore } from '../MarkersStore';
 
 type Props = {
   showOverlay: boolean;
@@ -18,7 +19,7 @@ type Props = {
 export const MODAL_WIDTH = WINDOW_WIDTH * 0.8;
 export const MODAL_HEIGHT = WINDOW_HEIGHT * 0.6;
 
-export const ModalFilter = inject('agendaStore')(
+export const ModalFilter = inject('markersStore')(
   observer((props: Props) => {
     const { showOverlay, onOverlayChange, stores } = props;
     const categories: Array<{ name: string; check: boolean }> = stores
@@ -27,6 +28,8 @@ export const ModalFilter = inject('agendaStore')(
           ? I18n.t('filter.agenda')
           : store === recyclingStore
           ? I18n.t('filter.recycling')
+          : store === markersStore
+          ? I18n.t('filter.markers')
           : null;
       })
       .map(category => {
