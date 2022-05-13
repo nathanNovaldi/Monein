@@ -30,7 +30,7 @@ export const MapDetailScreen = ({ route }) => {
 
   const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
   const latLng = `${item.lat},${item.lng}`;
-  const label = item.name;
+  const label = item.title;
   const url = Platform.select({
     ios: `${scheme}${label}@${latLng}`,
     android: `${scheme}${latLng}(${label})`,

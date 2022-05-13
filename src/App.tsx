@@ -173,12 +173,6 @@ const HomeScreenStack = () => {
 
 // notif OneSignal
 
-const externalUserId = '123456789';
-
-OneSignal.disablePush(function () {
-  OneSignal.setExternalUserId(externalUserId);
-});
-
 // OneSignal Init Code
 OneSignal.setLogLevel(6, 0);
 OneSignal.setAppId(ONE_SIGNAL_APP_ID);

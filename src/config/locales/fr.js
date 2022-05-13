@@ -17,7 +17,7 @@ export default {
     commerce: 'Commerces et entreprises',
     contact: 'Contact',
     menu: 'Menu cantine',
-    carte: 'Carte',
+    carte: 'Autour de moi',
     ruche: 'Signaler nid de frelons asiatiques',
   },
   news: {
