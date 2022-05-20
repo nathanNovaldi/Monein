@@ -3,20 +3,29 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Markers } from './Markers';
 import { parseMarkers, MARKERS_URL } from '../../config/config';
+import { Category } from '../agenda/Category';
+import { sortBy } from 'lodash';
 
 export class MarkersStore {
   markers: Array<Markers> = [];
+
+  filteredMarkers: Array<Markers> = [];
+
+  categories: Array<Category> = [];
 
   lastFetch: number = 0;
 
   constructor() {
     makeAutoObservable(this);
     this.fetchAll();
+    this.filteredMarkers = this.markers;
   }
 
   clear() {
     this.markers = [];
     this.lastFetch = 0;
+    this.filteredMarkers = [];
+    this.categories = [];
   }
 
   async fetchAll() {
@@ -45,6 +54,24 @@ export class MarkersStore {
 
     runInAction(() => {
       this.markers = markers;
+      this.categories = this.getCategories();
+      this.filteredMarkers = this.markers;
+    });
+  }
+
+  filterMarkers(): void {
+    console.log('Methode filterMarkers', this.markers);
+    const markersFilter = this.markers.filter(markersEvent => {
+      console.log(
+        'les categories dans filterMarkers:',
+        this.categories.some(category => markersEvent.category.includes(category.name) && category.check),
+      );
+      return this.categories.some(category => markersEvent.category.includes(category.name) && category.check);
+    });
+
+    runInAction(() => {
+      this.filteredMarkers = markersFilter;
+      console.log('Marqueur filtre', this.filteredMarkers);
     });
   }
 
@@ -64,6 +91,25 @@ export class MarkersStore {
       return markers[0];
     }
     return null;
+  }
+
+  getCategories(): Array<Category> {
+    let categories: Array<Category> = [];
+    this.markers.forEach(markers => {
+      categories.push({ name: markers.category, check: true });
+    });
+
+    categories = categories.filter((category, index) => {
+      return categories.findIndex(i => i.name === category.name) === index;
+    });
+
+    return categories;
+  }
+
+  changeCategories(newCategories: Array<Category>): void {
+    console.log('Les categories dans Methode changeCategories: ', newCategories);
+    this.categories = newCategories;
+    this.filterMarkers();
   }
 }
 

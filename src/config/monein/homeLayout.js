@@ -94,7 +94,7 @@ export const buttonList = [
     x: 0,
     y: 48,
     title: 'home.contact',
-    redirection: 'WebViewDynamic',
+    redirection: 'Contact',
     getIcon: on => <CONTACT_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
     params: {
       url: 'https://www.monein.fr/la-mairie/contact-et-services/contact/',
@@ -109,10 +109,6 @@ export const buttonList = [
     title: 'home.menu',
     redirection: 'WebViewStatic',
     getIcon: on => <MENU_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
-    params: {
-      url: 'https://www.monein.fr/vivre-a-monein/scolarite/le-restaurant-scolaire/menus-et-informations/',
-      cacheKey: 'menu',
-    },
   },
   {
     width: 15,

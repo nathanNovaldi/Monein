@@ -1,41 +1,39 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { FlatList, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { CheckBox, Overlay } from 'react-native-elements';
 import { inject, observer } from 'mobx-react';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { colors } from '../../../config/config';
+import { markers } from '../AgendaStore';
+import { fonts } from '../../../shared/theme/fonts';
 import I18n from '../../../config/locales';
 import { sizes } from '../../../shared/theme/sizes';
-import { agendaStore } from '../../agenda/AgendaStore';
-import { recyclingStore } from '../../recycling/RecyclingStore';
-import { WINDOW_WIDTH, WINDOW_HEIGHT } from '../../../shared/Variables';
-import { markersStore } from '../MarkersStore';
+import { AgendaEvent } from '../AgendaEvent';
+import { MarkersStore } from '../MarkersStore';
 
 type Props = {
   showOverlay: boolean;
   onOverlayChange: Dispatch<SetStateAction<boolean>>;
-  stores: Array<any>;
+  markersStore: MarkersStore;
 };
-
-export const MODAL_WIDTH = WINDOW_WIDTH * 0.8;
-export const MODAL_HEIGHT = WINDOW_HEIGHT * 0.6;
 
 export const ModalFilter = inject('markersStore')(
   observer((props: Props) => {
-    const { showOverlay, onOverlayChange, stores } = props;
-    const categories: Array<{ name: string; check: boolean }> = stores
-      .map(store => {
-        return store === agendaStore
-          ? I18n.t('filter.agenda')
-          : store === recyclingStore
-          ? I18n.t('filter.recycling')
-          : store === markersStore
-          ? I18n.t('filter.markers')
-          : null;
-      })
-      .map(category => {
-        return { name: category, check: false };
-      });
+    const { showOverlay, onOverlayChange, markersStore } = props;
+    const { categories } = markersStore;
+
     const [overlayCategories, setOverlayCategories] = useState(categories);
+
+    /* const countEvents = (agenda: Array<AgendaEvent>) => {
+      let count = 0;
+      agenda.forEach(agendaEvent => {
+        overlayCategories.forEach(category => {
+          count += agendaEvent.category.includes(category.name) && category.check ? 1 : 0;
+        });
+      });
+
+      return count;
+    }; */
 
     return (
       <Overlay
@@ -43,9 +41,35 @@ export const ModalFilter = inject('markersStore')(
         isVisible={showOverlay}
         animationType="fade"
         onBackdropPress={() => {
+          markersStore.changeCategories(overlayCategories);
           onOverlayChange(false);
         }}
       >
+        <View style={styles.selectAll}>
+          <TouchableOpacity
+            onPress={() => {
+              setOverlayCategories(
+                overlayCategories.map(category => {
+                  return { ...category, check: true };
+                }),
+              );
+            }}
+          >
+            <Text style={styles.textSelect}>{I18n.t('filter.selectAll')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setOverlayCategories(
+                overlayCategories.map(category => {
+                  return { ...category, check: false };
+                }),
+              );
+            }}
+          >
+            <Text style={styles.textSelect}>{I18n.t('filter.deselectAll')}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.separator} />
         <FlatList
           style={styles.listCategories}
           data={overlayCategories}
@@ -68,9 +92,11 @@ export const ModalFilter = inject('markersStore')(
             );
           }}
         />
+
         <TouchableOpacity
           style={styles.validateFilter}
           onPress={() => {
+            markersStore.changeCategories(overlayCategories);
             onOverlayChange(false);
           }}
         >
@@ -104,6 +130,23 @@ const styles = StyleSheet.create({
   checkBox: {
     backgroundColor: colors.background,
     color: colors.mainColor,
+  },
+  selectAll: {
+    height: 20,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  textSelect: {
+    fontFamily: fonts.semiBoldItalic,
+    fontSize: sizes.small,
+    color: colors.darkGrey,
+  },
+  numberEvents: {
+    marginTop: 5,
+    marginLeft: '5%',
+    flexDirection: 'row',
   },
   validateFilter: {
     marginTop: 7,

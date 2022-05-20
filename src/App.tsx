@@ -12,6 +12,7 @@ import { MenuScreen } from './features/menu/MenuScreen';
 import { newsStore } from './features/news/NewsStore';
 import { markersStore } from './features/map/MarkersStore';
 import { agendaStore } from './features/agenda/AgendaStore';
+import { ContactScreen } from './features/contact/ContactScreen';
 import { recyclingStore } from './features/recycling/RecyclingStore';
 import { ActuScreen } from './features/news/ActuScreen';
 import { NewsDetailScreen } from './features/news/NewsDetailScreen';
@@ -146,6 +147,7 @@ export type HomeStackParams = {
   NewsDetail: {
     itemID: any;
   };
+  Contact;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParams>();
@@ -165,6 +167,7 @@ const HomeScreenStack = () => {
       <HomeStack.Screen name="WebViewStatic" component={WebViewStaticHtmlScreen} />
       <HomeStack.Screen name="notification" component={NotificationsScreen} />
       <HomeStack.Screen name="NewsDetail" component={NewsDetailScreen} />
+      <HomeStack.Screen name="Contact" component={ContactScreen} />
     </HomeStack.Navigator>
   );
 };

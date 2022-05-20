@@ -18,11 +18,9 @@ import { MapSettings } from './component/MapSettings';
 import Menu from '../menuBottom/Menu';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { getUserAgentSync } from 'react-native-device-info';
-import { MarkersStore } from './MarkersStore';
+import { markersStore, MarkersStore } from './MarkersStore';
 
 type Props = {
-  agendaStore: AgendaStore;
-  recyclingStore: RecyclingStore;
   markersStore: MarkersStore;
 };
 
@@ -54,6 +52,12 @@ export const MapScreen = inject('markersStore')(
       })
       .map(store => store[1]);
 
+    console.log('stores:', stores);
+
+    /*
+    const filtre = stores.map(obj => obj.filteredMarkers);
+    console.log(filtre);
+*/
     const mapSettings = new MapSettings(43.29152762842413, -0.5658887808057648, 0.2, 0.2);
     const [overlayFilter, setOverlayFilter] = useState<boolean>(false);
     const isDarkMode = Appearance.getColorScheme() === 'dark';
@@ -88,7 +92,9 @@ export const MapScreen = inject('markersStore')(
           clusterColor={isDarkMode ? colors.lightGrey : colors.secondaryMarker}
         >
           {stores.map(store => {
-            const list = Object.values(store)[0];
+            console.log('trop bien de galerer', store);
+            const list = Object.values(store)[1];
+            console.log('aadadada on s amuse:', list);
             return list.map((item: any) => {
               console.log('asasasasasas', item);
               /*
