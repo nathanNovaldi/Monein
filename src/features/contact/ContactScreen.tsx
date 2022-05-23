@@ -10,6 +10,7 @@ import INFO_ICON from './icons/info.svg';
 import PHONE_ICON from './icons/phone.svg';
 import PIN_ICON from './icons/pin.svg';
 import Input from './component/Input';
+import qs from 'qs';
 
 export const ContactScreen = () => {
   const [inputs, setInputs] = useState({
@@ -21,37 +22,51 @@ export const ContactScreen = () => {
   });
   const [errors, setErrors] = useState({});
   const [checked, setchecked] = useState(false);
-  const errorChecked = false;
   const validate = () => {
     Keyboard.dismiss();
 
+    let errorDetect = false;
+
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(inputs.Email) === false) {
+      errorDetect = true;
       handleError("L'addresse mail est incorrect", 'Email');
     }
 
     if (!inputs.Prenom) {
+      errorDetect = true;
       handleError('Veuillez entrer votre prénom', 'Prenom');
     }
 
     if (!inputs.Nom) {
+      errorDetect = true;
       handleError('Veuillez entrer votre nom', 'Nom');
     }
 
     if (!inputs.Telephone) {
+      errorDetect = true;
       handleError('Veuillez entrer votre numéro de telephone', 'Telephone');
     }
 
     if (!inputs.Email) {
+      errorDetect = true;
       handleError('Veuillez entrer votre adresse mail', 'Email');
     }
 
     if (!inputs.Message) {
+      errorDetect = true;
       handleError('Veuillez entrer votre message', 'Message');
     }
 
-    if (checked) {
+    if (errorDetect) {
+      console.log('il y a erreur la');
     } else {
+      console.log('email?');
+      sendEmail('nathangouv64@gmail.com', 'Greeting!', 'I think you are fucked up how many letters you get.').then(
+        () => {
+          console.log('Our email successful provided to device mail ');
+        },
+      );
     }
   };
   const handleOnChange = (text, input) => {
@@ -61,6 +76,44 @@ export const ContactScreen = () => {
   const handleError = (errorMessage, input) => {
     setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
   };
+
+  /*
+  const handleEmail = () => {
+    const to = 'nathangouv64@gmail.com'; // string or array of email addresses
+    const subjectText = `Message de la part de ${inputs.Prenom} ${inputs.Nom}.`;
+    const bodyText = `${inputs.Message}/n Mail:${inputs.Email}/n Telephone:${inputs.Telephone}`;
+    email(to, {
+      subject: subjectText,
+      body: bodyText,
+    }).catch(console.error);
+  };
+*/
+  async function sendEmail(to, subject, body, options = {}) {
+    const { cc, bcc } = options;
+
+    let url = `mailto:${to}`;
+
+    // Create email link query
+    const query = qs.stringify({
+      subject,
+      body,
+      cc,
+      bcc,
+    });
+
+    if (query.length) {
+      url += `?${query}`;
+    }
+
+    // check if we can use this link
+    const canOpen = await Linking.canOpenURL(url);
+
+    if (!canOpen) {
+      throw new Error('Provided URL can not be handled');
+    }
+
+    return Linking.openURL(url);
+  }
 
   console.log(inputs);
 
@@ -137,11 +190,7 @@ export const ContactScreen = () => {
               adresser un courrier à : La Mairie de Monein – Place Henri Lacabanne – 64360 Monein
             </Text>
           </ScrollView>
-          {errorChecked && (
-            <Text style={{ color: 'red', fontSize: 12, marginTop: 7 }}>
-              Vous n'avez pas accepté la politique de confidentialité{' '}
-            </Text>
-          )}
+
           <View style={styles.condition}>
             <CheckBox checked={checked} onPress={() => setchecked(!checked)} />
             <Text style={{ fontSize: 18, paddingTop: 4, flex: 1 }}>
@@ -168,12 +217,26 @@ export const ContactScreen = () => {
 
               <View style={styles.contactTel}>
                 <PHONE_ICON fill="#000000" style={{ width: 30, height: 30 }} />
-                <Text style={styles.link}>05 59 21 30 06</Text>
+                <Text
+                  style={styles.link}
+                  onPress={() => {
+                    Linking.openURL('tel:+33559213006');
+                  }}
+                >
+                  05 59 21 30 06
+                </Text>
               </View>
 
               <View style={styles.contactInfo}>
                 <INFO_ICON fill="#000000" style={{ width: 30, height: 30 }} />
-                <Text style={styles.linkBold}>Voir les horaires d’ouverture</Text>
+                <Text
+                  style={styles.linkBold}
+                  onPress={() => {
+                    Linking.openURL('https://www.monein.fr/la-mairie/contact-et-services/horaires-ouverture/');
+                  }}
+                >
+                  Voir les horaires d’ouverture
+                </Text>
               </View>
             </View>
           </View>

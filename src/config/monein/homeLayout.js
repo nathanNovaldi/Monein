@@ -81,12 +81,8 @@ export const buttonList = [
     x: 16,
     y: 32,
     title: 'home.commerce',
-    redirection: 'WebViewDynamic',
+    redirection: 'Commerce',
     getIcon: on => <ANNUAIRE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
-    params: {
-      url: 'https://www.monein.fr/?shop_category=&s=&form_shop=1',
-      cacheKey: 'commerces',
-    },
   },
   {
     width: 15,

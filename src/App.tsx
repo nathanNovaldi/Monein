@@ -46,6 +46,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { createNavigationContainerRef, useNavigationContainerRef } from '@react-navigation/core';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CommerceScreen } from './features/commerce/CommerceScreen';
 
 // Navigation
 
@@ -148,6 +149,7 @@ export type HomeStackParams = {
     itemID: any;
   };
   Contact;
+  Commerce;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParams>();
@@ -168,6 +170,7 @@ const HomeScreenStack = () => {
       <HomeStack.Screen name="notification" component={NotificationsScreen} />
       <HomeStack.Screen name="NewsDetail" component={NewsDetailScreen} />
       <HomeStack.Screen name="Contact" component={ContactScreen} />
+      <HomeStack.Screen name="Commerce" component={CommerceScreen} />
     </HomeStack.Navigator>
   );
 };
