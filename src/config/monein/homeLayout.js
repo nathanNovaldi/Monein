@@ -105,6 +105,10 @@ export const buttonList = [
     title: 'home.menu',
     redirection: 'WebViewStatic',
     getIcon: on => <MENU_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
+    params: {
+      url: 'https://www.monein.fr/vivre-a-monein/scolarite/le-restaurant-scolaire/menus-et-informations/',
+      canNav: true,
+    },
   },
   {
     width: 15,

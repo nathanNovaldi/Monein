@@ -27,10 +27,17 @@ export const ContactScreen = () => {
 
     let errorDetect = false;
 
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    if (reg.test(inputs.Email) === false) {
+    const regMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (regMail.test(inputs.Email) === false) {
       errorDetect = true;
       handleError("L'addresse mail est incorrect", 'Email');
+    }
+
+    const regNum =
+      /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
+    if (regNum.test(inputs.Telephone) === false) {
+      errorDetect = true;
+      handleError('Le numero de telephone est incorrect', 'Telephone');
     }
 
     if (!inputs.Prenom) {
