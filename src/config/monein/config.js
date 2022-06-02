@@ -15,6 +15,8 @@ export const MARKERS_URL =
   'https://www.monein.fr/wp-admin/admin-ajax.php?action=mapp_query&list=true&query%5bpost_type%5d=cpt_map&query%5bposts_per_page%5d=-1';
 export const parseMarkers = markersParser;
 
+export const COMMERCES_URL = 'https://www.monein.fr/wp-json/wp/v2/cpt_shop/?per_page=100';
+
 export const HOME_LAYOUT = buttonList;
 
 export const LOGO = LOGO_SVG;

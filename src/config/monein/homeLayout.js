@@ -83,6 +83,10 @@ export const buttonList = [
     title: 'home.commerce',
     redirection: 'Commerce',
     getIcon: on => <ANNUAIRE_ICON style={iconStyle} fill={on ? colors.textLight : colors.mainColor} />,
+    params: {
+      url: 'https://www.monein.fr/la-mairie/contact-et-services/contact/',
+      canNav: true,
+    },
   },
   {
     width: 15,

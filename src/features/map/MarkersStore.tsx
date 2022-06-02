@@ -36,7 +36,6 @@ export class MarkersStore {
         let parsedMarkers: Array<Markers> = [];
         if (resp.status === 200) {
           parsedMarkers = await parseMarkers(resp.data.data.pois);
-          console.log('ttttttttt', parsedMarkers);
         }
         try {
           await AsyncStorage.setItem('@markersStore', JSON.stringify(resp.data.data.pois));
@@ -60,19 +59,15 @@ export class MarkersStore {
   }
 
   filterMarkers(): void {
-    console.log('Methode filterMarkers', this.markers);
     const markersFilter = this.markers.filter(markersEvent => {
-      console.log(
-        'les categories dans filterMarkers:',
-        this.categories.some(category => markersEvent.category.includes(category.name) && category.check),
-      );
       return this.categories.some(category => markersEvent.category.includes(category.name) && category.check);
     });
 
     runInAction(() => {
       this.filteredMarkers = markersFilter;
-      console.log('Marqueur filtre', this.filteredMarkers);
     });
+
+    console.log('marqueur filtré', this.filteredMarkers);
   }
 
   fetchIfNeeded() {
@@ -107,7 +102,6 @@ export class MarkersStore {
   }
 
   changeCategories(newCategories: Array<Category>): void {
-    console.log('Les categories dans Methode changeCategories: ', newCategories);
     this.categories = newCategories;
     this.filterMarkers();
   }

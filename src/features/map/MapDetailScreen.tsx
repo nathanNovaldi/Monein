@@ -28,8 +28,6 @@ type Props = {
 export const MapDetailScreen = ({ route }) => {
   const item = route.params;
 
-  console.log(item.body.replace(/(<([^>]+)>)/gi, '')  );
-
   const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
   const latLng = `${item.lat},${item.lng}`;
   const label = item.title;
@@ -72,7 +70,8 @@ export const MapDetailScreen = ({ route }) => {
         <Text style={styles.soustitre}>INFORMATIONS</Text>
         <View style={styles.ligne}>
           <PUCE_ICON fill="#1C7368" />
-          <Text style={styles.text}>Adresse: {item.body.replace(/(<([^>]+)>)/gi, '')}</Text>
+
+          <Text style={[styles.text, {}]}>{item.body.replace(/(<([^>]+)>)/gi, '').trim()}</Text>
         </View>
 
         <View style={styles.ligne}>
@@ -118,8 +117,8 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: 'center',
+    marginRight: 20,
   },
 
   map: {

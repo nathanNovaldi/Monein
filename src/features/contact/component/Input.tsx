@@ -4,10 +4,19 @@ import { TextInput } from 'react-native-gesture-handler';
 
 const Input = ({ label, error, password, onFocus = () => {}, ...props }) => {
   const [isActive, setActive] = useState(false);
+
+  const renderElement = label => {
+    if (label !== 'Telephone') {
+      return <Text style={{ color: '#790000' }}>*</Text>;
+    } else {
+      return null;
+    }
+  };
   return (
     <View style={{ marginBottom: 20 }}>
       <Text style={styles.labelStyle}>
-        {label} <Text style={{ color: '#790000' }}>*</Text>
+        {label}
+        <View>{renderElement(label)}</View>
       </Text>
 
       <TextInput

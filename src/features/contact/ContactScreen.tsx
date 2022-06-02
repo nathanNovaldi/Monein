@@ -35,7 +35,10 @@ export const ContactScreen = () => {
 
     const regNum =
       /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
-    if (regNum.test(inputs.Telephone) === false) {
+
+    if (!inputs.Telephone) {
+      console.log('pas de num');
+    } else if (regNum.test(inputs.Telephone) === false) {
       errorDetect = true;
       handleError('Le numero de telephone est incorrect', 'Telephone');
     }
@@ -50,11 +53,6 @@ export const ContactScreen = () => {
       handleError('Veuillez entrer votre nom', 'Nom');
     }
 
-    if (!inputs.Telephone) {
-      errorDetect = true;
-      handleError('Veuillez entrer votre numéro de telephone', 'Telephone');
-    }
-
     if (!inputs.Email) {
       errorDetect = true;
       handleError('Veuillez entrer votre adresse mail', 'Email');
@@ -66,13 +64,9 @@ export const ContactScreen = () => {
     }
 
     if (errorDetect) {
-      console.log('il y a erreur la');
     } else {
-      console.log('email?');
       sendEmail('nathangouv64@gmail.com', 'Greeting!', 'I think you are fucked up how many letters you get.').then(
-        () => {
-          console.log('Our email successful provided to device mail ');
-        },
+        () => {},
       );
     }
   };

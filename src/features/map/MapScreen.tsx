@@ -52,8 +52,6 @@ export const MapScreen = inject('markersStore')(
       })
       .map(store => store[1]);
 
-    console.log('stores:', stores);
-
     /*
     const filtre = stores.map(obj => obj.filteredMarkers);
     console.log(filtre);
@@ -89,34 +87,32 @@ export const MapScreen = inject('markersStore')(
           style={styles.map}
           showsUserLocation={true}
           compassOffset={{ x: -WINDOW_WIDTH + 60, y: 20 }}
-          clusterColor={isDarkMode ? colors.lightGrey : colors.secondaryMarker}
+          clusterColor={colors.mainColor}
         >
           {stores.map(store => {
-            console.log('trop bien de galerer', store);
             const list = Object.values(store)[1];
-            console.log('aadadada on s amuse:', list);
+
             return list.map((item: any) => {
-              console.log('asasasasasas', item);
               /*
               if (!item.location) {
                 return null;
               } */
 
+              console.log('item: ', item);
+
               return (
                 <Marker
                   key={item.id}
                   coordinate={{ longitude: item.lng, latitude: item.lat }}
+                  onCalloutPress={() => {
+                    navigation.navigate('MapDetail', item);
+                  }}
                   onPress={() => {
                     mapSettings.goToMarkerLocation(item);
                   }}
                 >
                   <FontAwesome5Icon name="map-marker-alt" size={30} color="#1C7069" style={styles.marker} />
-                  <Callout
-                    tooltip
-                    onPress={() => {
-                      navigation.navigate('MapDetail', item);
-                    }}
-                  >
+                  <Callout tooltip onPress={() => {}}>
                     <View>
                       <View style={styles.bubble}>
                         <Text style={styles.name}>{item.title}</Text>

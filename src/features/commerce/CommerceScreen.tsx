@@ -1,106 +1,83 @@
-import { HeaderHeightContext } from '@react-navigation/stack';
-import { transform } from 'lodash';
-import { suppressDeprecationWarnings } from 'moment';
-import React, { useState, useEffect } from 'react';
-import { RecyclerViewBackedScrollViewBase, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { Card } from 'react-native-elements/dist/card/Card';
-import { ListItem } from 'react-native-elements/dist/list/ListItem';
-import { FlatList, ScrollView, TextInput } from 'react-native-gesture-handler';
-import { View } from 'react-native-interactable';
-import MapView, { Animated } from 'react-native-maps';
-import { FadeInLeft } from 'react-native-reanimated';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, Marker } from 'react-native-svg';
+import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+import { decode } from 'html-entities';
 
 export const CommerceScreen = () => {
-  const [isActive, setActive] = useState(false);
+  const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [masterData, setmasterData] = useState([]);
-  const [search, setsearch] = useState('');
+  const [visible, setVisible] = useState(false);
+
+  const hideMenu = () => setVisible(false);
+
+  const showMenu = () => setVisible(true);
 
   useEffect(() => {
-    fetchPosts();
-    return () => {};
+    const urls = [
+      'https://www.monein.fr/wp-json/wp/v2/cpt_shop/?per_page=100',
+      'https://www.monein.fr/wp-json/wp/v2/cpt_shop/?per_page=100&offset=100',
+    ];
+
+    Promise.all(urls.map(url => fetch(url).then(res => res.json()))).then(items => {
+      console.log(items[0]);
+
+      const allItems = items[0];
+      allItems.push(...items[1]);
+
+      console.log(allItems);
+
+      setData(allItems);
+      setFilteredData(allItems);
+    });
   }, []);
 
-  const fetchPosts = () => {
-    const apiURL = '';
-    fetch(apiURL)
-      .then(response => response.json())
-      .then(responseJson => {
-        setFilteredData(responseJson);
-        setmasterData(responseJson);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const searchFilter = text => {
+  const searchFilterFunction = text => {
     if (text) {
-      const newData = masterData.filter(item => {
-        const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+      const newData = data.filter(item => {
+        const itemData = item.title.rendered ? item.title.rendered.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
       setFilteredData(newData);
-      setsearch(text);
     } else {
-      setFilteredData(masterData);
-      setsearch(text);
+      setFilteredData(data);
     }
   };
 
-  const ItemView = ({ item }) => {
-    return (
-      <Text>
-        {item.id}
-        {'. '}
-        {item.title.toUpperCase()}
-      </Text>
-    );
-  };
-
   return (
-    <SafeAreaView>
-      <View>
-        <Text style={styles.titre}>Commerces et entreprises à Monein</Text>
-        <View style={styles.recherche}>
-          <Text style={styles.titreRecherche}>RECHECHER UNE ENTREPRISE OU UN COMMERCE</Text>
+    <ScrollView style={styles.page}>
+      <Text style={styles.titre}>Commerces et entreprises à Monein</Text>
+      <View style={styles.recherche}>
+        <Text style={styles.titreRecherche}>RECHECHER UNE ENTREPRISE OU UN COMMERCE</Text>
 
-          <Text>Catégories :</Text>
-          <TextInput
-            style={{
-              backgroundColor: '#ffffff',
-              height: 50,
-              fontSize: 18,
-              paddingLeft: 4,
-            }}
-            selectionColor="black"
-            placeholder="Choisissez une catégorie"
-          />
-
-          <Text>Recherche par nom :</Text>
-          <TextInput
-            style={{
-              backgroundColor: '#ffffff',
-              height: 50,
-              fontSize: 18,
-              paddingLeft: 4,
-            }}
-            selectionColor="black"
-            placeholder="Nom du Commerce"
-          />
-          <View style={styles.centreBouton}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={{ color: '#FFFFFF', fontWeight: '500', fontSize: 18 }}>Rechercher</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Text>Nous avons trouvé 169 établissement</Text>
-        <FlatList data={filteredData} keyExtractor={(item, index) => index.toString()} renderItem={ItemView} />
+        <Text>Recherche par nom :</Text>
+        <TextInput
+          style={{
+            backgroundColor: '#ffffff',
+            height: 50,
+            fontSize: 18,
+            paddingLeft: 4,
+          }}
+          selectionColor="black"
+          placeholder="Nom du Commerce"
+          onChangeText={event => {
+            searchFilterFunction(event);
+          }}
+        />
       </View>
-    </SafeAreaView>
+      {filteredData.map((item, index) => {
+        console.log('les items: ', item.title.rendered);
+        return (
+          <View key={index}>
+            <View style={styles.items}>
+              <Text style={{ textAlign: 'center' }}>{decode(item.title.rendered)}</Text>
+            </View>
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 
@@ -135,5 +112,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+  },
+
+  items: {
+    borderColor: '#1B7268',
+    borderWidth: 1,
+    marginTop: 5,
+    height: 50,
+    justifyContent: 'center',
+  },
+
+  menuCategories: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

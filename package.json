@@ -58,6 +58,7 @@
     "react-native-localize": "^2.1.1",
     "react-native-map-clustering": "^3.4.2",
     "react-native-maps": "0.28.0",
+    "react-native-material-menu": "^2.0.0",
     "react-native-onesignal": "^4.3.7",
     "react-native-open-maps": "^0.4.0",
     "react-native-permissions": "^3.0.5",

@@ -55,7 +55,7 @@ export class MapSettings {
                     latitude: item.lat,
                     longitude: item.lng,
                   },
-                  altitude: 10000,
+                  altitude: 500,
                   zoom: 10,
                 },
                 { duration: 1000 },

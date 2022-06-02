@@ -24,6 +24,8 @@ export const ModalFilter = inject('markersStore')(
 
     const [overlayCategories, setOverlayCategories] = useState(categories);
 
+    console.log('overlayCategories: ', overlayCategories);
+
     /* const countEvents = (agenda: Array<AgendaEvent>) => {
       let count = 0;
       agenda.forEach(agendaEvent => {
